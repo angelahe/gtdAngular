@@ -1,0 +1,24 @@
+{
+  "name": "gtdangular",
+  "version": "1.0.0",
+  "description": "gtd angular app",
+  "main": "index.js",
+  "scripts": {
+    "test": "ng test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angelahe/gtdAngular.git"
+  },
+  "keywords": [
+    "app",
+    "gtd",
+    "angular"
+  ],
+  "author": "Angela Henders",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/angelahe/gtdAngular/issues"
+  },
+  "homepage": "https://github.com/angelahe/gtdAngular#readme"
+}
