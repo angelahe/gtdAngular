@@ -39,6 +39,114 @@ enable server side rendering an static site generation - N (default)
 `cd gtdangular-ui`
 `ng serve` to run ui client
 
+`ng serve --host 0.0.0.0`
+
+why: when listen for tcp connections, it binds to an adapter and to a port
+docker assigns ip address to container
+every container running has a virtual network interface card
+localhost or 127.* - loopback adapter (same machine)
+for security by default every physical and virtual device on network, has loopback adapter
+can't access loopback adapter from elsewhere is local to the device
+by convention points back to device
+when listening for incoming connections, has to bind to adapters and ports
+by default ng serve binds to loopback adapter at 4200
+only accepts connections from the loopback adapter
+browser is running on the host, vs in the container
+by doing `ng serve --host 0.0.0.0`
+ie binding to 0 0 0 0 is shortcut for connecting to all loopback adapters
+if running a web server
+devcontainer magic happens automatically
+port forwarding 4200 on this mac is the same as the port inside the container
+ports match but still not the adapter ng serve is listening to
+webpack wasn't listening to connections from the outside world
+
+`cd projects`
+`dotnet new webapi -n GtdAngular.Api`
+
+The template "ASP.NET Core Web API" was created successfully.
+
+```
+Processing post-creation actions...
+Restoring /workspaces/gtdAngular/projects/GtdAngular.Api/GtdAngular.Api.csproj:
+  Determining projects to restore...
+  Restored /workspaces/gtdAngular/projects/GtdAngular.Api/GtdAngular.Api.csproj (in 2.66 sec).
+Restore succeeded.
+```
+`cd GtdAngular.Api`
+try `dotnet run`
+
+```
+Building...
+warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+      Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://localhost:5165'.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5165
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /workspaces/gtdAngular/projects/GtdAngular.Api
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+
+      === see the logs ===
+2025-08-12 19:57:21.760 [info] Locating .NET runtime version 9.0.1
+2025-08-12 19:57:21.817 [info] Did not find .NET 9.0.1 on path, falling back to acquire runtime via ms-dotnettools.vscode-dotnet-runtime
+2025-08-12 19:57:25.618 [info] Dotnet path: /home/vscode/.vscode-server/data/User/globalStorage/ms-dotnettools.vscode-dotnet-runtime/.dotnet/9.0.8~arm64/dotnet
+2025-08-12 19:57:25.618 [info] Activating C# standalone...
+2025-08-12 19:57:25.734 [info] [stdout] info: Program[0]
+      Server started with process ID 16988
+
+2025-08-12 19:57:26.689 [info] [stdout] {"pipeName":"/tmp/75a9ba1e.sock"}
+
+2025-08-12 19:57:26.689 [info] received named pipe information from server
+2025-08-12 19:57:26.689 [info] client has connected to server
+2025-08-12 19:57:26.727 [info] [Info  - 7:57:26 PM] [Program] Language server initialized
+2025-08-12 19:57:28.469 [info] [Info  - 7:57:28 PM] [project/open] [LanguageServerProjectLoader] Successfully completed load of /workspaces/gtdAngular/projects/GtdAngular.Api/GtdAngular.Api.csproj
+2025-08-12 19:57:28.469 [info] [Info  - 7:57:28 PM] [project/open] [LanguageServerProjectLoader] Completed (re)load of all projects in 00:00:01.3132114
+2025-08-12 19:57:50.803 [info] Detected new installation of ms-dotnettools.csdevkit
+2025-08-12 20:09:11.888 [info] [Warn  - 8:09:11 PM] [textDocument/diagnostic] [LSP] Ignoring diagnostics request for untracked document: file:///workspaces/gtdAngular/projects/GtdAngular.Api/Program.cs
+2025-08-12 20:09:11.888 [info] [Warn  - 8:09:11 PM] [textDocument/diagnostic] [LSP] Ignoring diagnostics request for untracked document: file:///workspaces/gtdAngular/projects/GtdAngular.Api/Program.cs
+2025-08-12 20:09:11.888 [info] [Warn  - 8:09:11 PM] [textDocument/diagnostic] [LSP] Ignoring diagnostics request for untracked document: file:///workspaces/gtdAngular/projects/GtdAngular.Api/Program.cs
+2025-08-12 20:09:12.512 [info] [Error - 8:09:12 PM] [workspace/didChangeWatchedFiles] [LanguageServerProjectLoader] Error while loading /workspaces/gtdAngular/projects/GtdAngular.Api/GtdAngular.Api.csproj: Could not find file '/workspaces/gtdAngular/projects/GtdAngular.Api/GtdAngular.Api.csproj'.
+2025-08-12 20:09:12.514 [info] [Info  - 8:09:12 PM] [workspace/didChangeWatchedFiles] [LanguageServerProjectLoader] Completed (re)load of all projects in 00:00:00.2279077
+
+```
+
+so NOPE.  try again, but refer to creating a .net project from my angular course
+(delete what got created)
+`cd projects`
+`dotnet new webapi -controllers -n GtdAngular.Api`
+`cd GtdAngular.Api`
+`dotnet run`
+
+(looks like the right files are there now ie the weather app, still getting errors on trying to run it though)
+```
+uilding...
+warn: Microsoft.AspNetCore.Hosting.Diagnostics[15]
+      Overriding HTTP_PORTS '8080' and HTTPS_PORTS ''. Binding to values defined by URLS instead 'http://localhost:5181'.
+info: Microsoft.Hosting.Lifetime[14]
+      Now listening on: http://localhost:5181
+info: Microsoft.Hosting.Lifetime[0]
+      Application started. Press Ctrl+C to shut down.
+info: Microsoft.Hosting.Lifetime[0]
+      Hosting environment: Development
+info: Microsoft.Hosting.Lifetime[0]
+      Content root path: /workspaces/gtdAngular/projects/GtdAngular.Api
+warn: Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware[3]
+      Failed to determine the https port for redirect.
+```
+
+http://localhost:5181/weatherforecast
+
+===
+
+(install C# devkit)
+(claude recommends)
+configure cors for Angular frontend, since Angular app will make http requests to the api
+change Program.cs
+
 ### setup of container messaging in command line
 
 Running the postCreateCommand from devcontainer.json...
@@ -93,3 +201,5 @@ npm error enoent
 npm error A complete log of this run can be found in: /home/vscode/.npm/_logs/2025-08-12T18_42_01_235Z-debug-0.log
 [51179 ms] postCreateCommand from devcontainer.json failed with exit code 254. Skipping any further user-provided commands.
 Done. Press any key to close the terminal.
+
+## devcontainers and Rider 

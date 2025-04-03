@@ -9,11 +9,11 @@
   "features": {
     "ghcr.io/devcontainers/features/node:1": {},
     "ghcr.io/devcontainers-extra/features/angular-cli:2": {},
-    "ghcr.io/jungaretti/features/vim:1": {},
+    "ghcr.io/jungaretti/features/vim:1": {}
   },
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [4200],
+  "forwardPorts": [4200]
   // "portsAttributes": {
   //    "5001": {
   //      "protocol": "https"
